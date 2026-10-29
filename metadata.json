@@ -1,0 +1,6 @@
+{
+  "name": "AgroRoad AI - Smarter Analysis | Safer Roads",
+  "description": "AgroRoad AI smart pavement damage detection platform with AI vision scanning, GPS spatial mapping, real-time analytics, and inspection reporting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
