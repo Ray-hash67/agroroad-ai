@@ -1,11 +1,41 @@
+# Netlify Production Configuration for AgroRoad AI React SPA
 [build]
   command = "npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
 
+# Explicit build commands for all contexts to prevent fallback to echo 'No build step required'
+[context.production]
+  command = "npm run build"
+  publish = "dist"
+
+[context.deploy-preview]
+  command = "npm run build"
+  publish = "dist"
+
+[context.branch-deploy]
+  command = "npm run build"
+  publish = "dist"
+
+# Single Page Application (SPA) Redirects
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+
+# HTTP Security and Cache Control Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
