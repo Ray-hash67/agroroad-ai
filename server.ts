@@ -13,7 +13,8 @@ import {
   startVideoProcessingJob, 
   cancelJobProcessing, 
   probeVideoMetadata,
-  getModelStatus
+  getModelStatus,
+  inspectRoadImage
 } from './server/pipeline';
 import { VideoJob } from './server/types';
 
@@ -77,14 +78,63 @@ const upload = multer({
   }
 });
 
-app.use(express.json());
+app.use(express.json({ limit: '30mb' }));
+
+const imageUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 }
+});
 
 // API Routes
 
-// 1. Model Status & Diagnostics
+// 1. Model Status & Diagnostics (Returns YOLO26-S / RDD2022 Best Model details)
 app.get('/api/model/status', (_req: Request, res: Response) => {
   const status = getModelStatus();
   res.json(status);
+});
+
+// 1b. Inspect Single Road Image using Best Model (YOLO26-S / RDD2022 + Gemini 3.8 Vision)
+app.post('/api/inspect/image', (req: Request, res: Response, next) => {
+  if (req.is('multipart/form-data')) {
+    imageUpload.single('file')(req, res, next);
+  } else {
+    next();
+  }
+}, async (req: Request, res: Response) => {
+  try {
+    let fileBuffer: Buffer | null = null;
+    let fileName = 'road_inspection.jpg';
+
+    if (req.file) {
+      fileBuffer = req.file.buffer;
+      fileName = req.file.originalname;
+    } else if (req.body.imageBase64) {
+      const b64 = req.body.imageBase64.replace(/^data:image\/\w+;base64,/, '');
+      fileBuffer = Buffer.from(b64, 'base64');
+      if (req.body.fileName) fileName = req.body.fileName;
+    } else if (req.body.imagePath) {
+      const localPath = path.resolve(process.cwd(), req.body.imagePath.replace(/^\//, ''));
+      if (fs.existsSync(localPath)) {
+        fileBuffer = fs.readFileSync(localPath);
+        fileName = path.basename(localPath);
+      }
+    }
+
+    if (!fileBuffer) {
+      return res.status(400).json({ error: 'No image provided. Upload a file or provide imageBase64 / imagePath.' });
+    }
+
+    const confidenceThreshold = req.body.confidence ? parseFloat(req.body.confidence) : 0.25;
+    const result = await inspectRoadImage(fileBuffer, fileName, confidenceThreshold);
+
+    res.json({
+      success: true,
+      ...result
+    });
+  } catch (err: any) {
+    console.error('[API /api/inspect/image] Error:', err);
+    res.status(500).json({ error: err.message || 'Failed to inspect road image' });
+  }
 });
 
 // 2. Upload Video endpoint (Validates file type & size, streams directly to disk)

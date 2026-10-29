@@ -1,5 +1,22 @@
 [
   {
+    "id": "job_sample_1793260044782",
+    "filename": "phnom_penh_patrol.mp4",
+    "originalPath": "/app/applet/public/videos/phnom_penh_patrol.mp4",
+    "fileSizeBytes": 2036741,
+    "durationSec": 25,
+    "resolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "fps": 25,
+    "status": "uploaded",
+    "progress": 0,
+    "phase": "Sample Patrol Video Ready for AI Road Damage Analysis",
+    "createdAt": "2026-10-29T07:47:24.782Z",
+    "updatedAt": "2026-10-29T07:47:24.782Z"
+  },
+  {
     "id": "job_sample_1793156388309",
     "filename": "phnom_penh_patrol.mp4",
     "originalPath": "/app/applet/public/videos/phnom_penh_patrol.mp4",

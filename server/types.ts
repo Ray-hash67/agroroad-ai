@@ -5,6 +5,8 @@ export type DamageCategory =
   | 'Pothole'
   | 'Manhole hazard';
 
+export type DamageCode = 'D00' | 'D10' | 'D20' | 'D40' | 'MH';
+
 export type DefectSeverity = 'critical' | 'moderate' | 'minor';
 
 export interface BoundingBoxPercent {
@@ -18,6 +20,7 @@ export interface DetectionRecord {
   id: string;
   trackingId: string;
   category: DamageCategory;
+  damageCode?: DamageCode;
   confidence: number;
   frameNumber: number;
   timestampSec: number;
@@ -32,6 +35,7 @@ export interface DetectionRecord {
 export interface UniqueDefect {
   trackingId: string;
   category: DamageCategory;
+  damageCode?: DamageCode;
   severity: DefectSeverity;
   maxConfidence: number;
   firstSeenSec: number;
@@ -90,8 +94,14 @@ export interface ModelEngineStatus {
   configured: boolean;
   engine: 'gemini' | 'yolo_fastapi' | 'none';
   modelName: string;
-  supportedCategories: DamageCategory[];
+  supportedCategories: string[];
+  rddClasses?: { [code: string]: string };
   setupMessage?: string;
   yoloInferenceUrl?: string;
   hasGeminiKey: boolean;
+  hasLocalWeights?: boolean;
+  weightsPath?: string;
+  weightsSizeBytes?: number;
+  weightsSizeFormatted?: string;
+  weightsSource?: string;
 }

@@ -1,12 +1,12 @@
 """
 Road Damage Detection FastAPI Inference Service
-Compatible with YOLOv8 / YOLOv11 trained on Road Damage Datasets (RDD2020 / RDD2022).
-Detects 5 standard road defect categories:
-1. Transverse crack (D10 / D11)
-2. Longitudinal crack (D00 / D01)
-3. Alligator crack (D20)
-4. Pothole (D40)
-5. Manhole hazard (D43 / D44 / Manhole)
+Powered by YOLO26-S (RDD2022 Best Model, yolo26s.pt).
+Detects standard road defect categories defined in RDD2022:
+1. D00: Longitudinal crack (wheel-path and paving seam fractures)
+2. D10: Transverse crack (perpendicular cross-lane fractures)
+3. D20: Alligator crack (crocodile fatigue distress)
+4. D40: Pothole (asphalt cavity, localized breakup, or subsidence)
+5. MH:  Manhole hazard (sunken rim or frame depression)
 """
 
 import os
@@ -19,8 +19,8 @@ from pydantic import BaseModel
 from PIL import Image
 
 app = FastAPI(
-    title="Road Damage Detection YOLO Inference Service",
-    description="High-throughput road pavement defect object detection & tracking service",
+    title="Road Damage Detection YOLO26-S Inference Service",
+    description="High-throughput road pavement defect object detection & tracking service using YOLO26-S",
     version="1.0.0"
 )
 
@@ -32,13 +32,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Standard 5 classes mapped from Road Damage Dataset (RDD)
+# Standard 4 classes from RDD2022 + Manhole hazard
 DAMAGE_CLASSES = [
-    "Transverse crack",
-    "Longitudinal crack",
-    "Alligator crack",
-    "Pothole",
-    "Manhole hazard"
+    "D00: Longitudinal crack",
+    "D10: Transverse crack",
+    "D20: Alligator crack",
+    "D40: Pothole",
+    "MH: Manhole hazard"
 ]
 
 class BoundingBox(BaseModel):

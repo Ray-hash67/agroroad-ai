@@ -265,18 +265,6 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           >
             {t.streets}
           </button>
-
-          <button 
-            onClick={() => { setMapMode('dark'); setUseFallbackVector(true); }}
-            className={`px-2.5 py-1 rounded text-[11px] font-semibold transition-all ${
-              mapMode === 'dark' || useFallbackVector
-                ? 'bg-slate-900 text-white shadow-xs' 
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-            title="Night GIS Vector View"
-          >
-            {t.nightGis}
-          </button>
         </div>
       </div>
 
@@ -294,7 +282,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 defaultZoom={15}
                 mapTypeId={googleMapTypeId}
                 gestureHandling="greedy"
-                disableDefaultUI={false}
+                disableDefaultUI={true}
                 style={{ width: '100%', height: '100%' }}
               >
                 <MapCameraController 

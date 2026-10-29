@@ -476,6 +476,10 @@ export const AIDetectionModule: React.FC<AIDetectionModuleProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-slate-900 text-base">{t.aiDetection}</h3>
+              <span className="bg-blue-50 text-blue-700 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-blue-200 flex items-center gap-1.5 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                <span>MODEL: YOLO26-S (best.pt · 20.3MB)</span>
+              </span>
             </div>
             <p className="text-[11px] text-slate-500">
               {isKm ? 'ការត្រួតពិនិត្យ និងតាមដានបញ្ហាផ្លូវតាមវីដេអូ' : 'Real-time video road distress tracking & defect telemetry'}

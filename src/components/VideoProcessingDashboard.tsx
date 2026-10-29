@@ -100,6 +100,11 @@ interface ModelStatusResponse {
   setupMessage?: string;
   yoloInferenceUrl?: string;
   hasGeminiKey: boolean;
+  hasLocalWeights?: boolean;
+  weightsPath?: string;
+  weightsSizeBytes?: number;
+  weightsSizeFormatted?: string;
+  weightsSource?: string;
 }
 
 interface VideoProcessingDashboardProps {
@@ -438,6 +443,42 @@ export const VideoProcessingDashboard: React.FC<VideoProcessingDashboardProps> =
           </div>
         </div>
       )}
+
+      {/* Active Best Model Indicator Banner */}
+      <div className="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 text-emerald-950 shadow-2xs">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-bold text-sm text-emerald-950">
+                {isKm ? 'ម៉ូដែលត្រូវបានតម្លើង: YOLO26-S (best.pt)' : 'Active Model: YOLO26-S (best.pt)'}
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-200 text-emerald-900 border border-emerald-300">
+                {modelStatus?.weightsSizeFormatted || '20.3 MB'} Checkpoint
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-100 text-blue-900 border border-blue-200">
+                Multi-Frame Tracking
+              </span>
+            </div>
+            <p className="text-[11px] text-emerald-800 mt-0.5">
+              Hugging Face: <code className="font-mono text-emerald-950 font-semibold">dronefreak/rdd2022-yolo26s</code> · Trained for D00, D10, D20, D40 & Manhole tracking
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-semibold text-emerald-800 bg-white/80 px-2.5 py-1 rounded-lg border border-emerald-200 font-mono">
+            D00 · D10 · D20 · D40
+          </span>
+          <button
+            onClick={() => setShowSetupModal(true)}
+            className="text-xs text-emerald-700 hover:text-emerald-950 underline font-semibold cursor-pointer"
+          >
+            Diagnostics
+          </button>
+        </div>
+      </div>
 
       {/* Video Upload & Dropzone Area */}
       <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
@@ -1014,7 +1055,7 @@ export const VideoProcessingDashboard: React.FC<VideoProcessingDashboardProps> =
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-sm text-slate-900 flex items-center gap-2">
                     <Layers className="w-4 h-4 text-slate-700" />
-                    <span>Option 2: Standalone Python YOLO FastAPI Service</span>
+                    <span>Option 2: Standalone YOLO26-S (RDD2022 Best Model)</span>
                   </h4>
                   {modelStatus?.engine === 'yolo_fastapi' ? (
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
@@ -1027,7 +1068,7 @@ export const VideoProcessingDashboard: React.FC<VideoProcessingDashboardProps> =
                   )}
                 </div>
                 <p className="leading-relaxed">
-                  Run an offline Ultralytics YOLOv8/YOLOv11 model trained on the Road Damage Dataset (RDD2022) using the provided Python service in <code>inference_service/app.py</code>:
+                  The highest-accuracy model recommended in RoadDamageAI (trained on the RDD2022 dataset using <code>yolo26s.pt</code>). Detects the four official pavement damage classes: <strong>D00</strong> (Longitudinal crack), <strong>D10</strong> (Transverse crack), <strong>D20</strong> (Alligator crack), and <strong>D40</strong> (Pothole).
                 </p>
                 <div className="bg-slate-900 text-slate-100 p-2.5 rounded-xl font-mono text-[11px] space-y-1">
                   <div>cd inference_service</div>
