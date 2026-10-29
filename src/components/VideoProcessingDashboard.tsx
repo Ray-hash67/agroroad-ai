@@ -26,6 +26,13 @@ import {
 import { DamageDetection, DamageType, DefectSeverity } from '../types/damage';
 import { Language, translations } from '../i18n/translations';
 import { RoadDefectLogo } from './RoadDefectLogo';
+import { 
+  DASHCAM_IMG, 
+  CRACK_IMG, 
+  DEFECT_MANHOLE_HAZARD_IMG, 
+  DEFECT_ALLIGATOR_CRACK_IMG, 
+  DEFECT_POTHOLE_IMG 
+} from '../data/mockData';
 
 interface VideoJobResponse {
   id: string;
@@ -373,14 +380,14 @@ export const VideoProcessingDashboard: React.FC<VideoProcessingDashboardProps> =
         severity: d.severity,
         depthCm: d.estimatedDepthCm,
         areaM2: d.estimatedAreaM2,
-        image: '/src/assets/images/road_dashcam_view.jpg',
+        image: DASHCAM_IMG,
         cropImage: mappedType === 'manhole_hazard'
-          ? '/assets/aistudio/image_7eff1d52.png'
+          ? DEFECT_MANHOLE_HAZARD_IMG
           : mappedType === 'alligator_crack'
-          ? '/assets/aistudio/image_c0099d7b.png'
+          ? DEFECT_ALLIGATOR_CRACK_IMG
           : mappedType === 'pothole'
-          ? '/assets/aistudio/image_646ff71d.png'
-          : '/src/assets/images/road_crack_surface.jpg',
+          ? DEFECT_POTHOLE_IMG
+          : CRACK_IMG,
         boundingBoxes: [
           {
             x: d.representativeBbox.x,

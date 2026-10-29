@@ -1,14 +1,23 @@
 import { DamageDetection, DamageType } from '../types/damage';
 
-export const POTHOLE_IMG = '/assets/aistudio/image_646ff71d.png';
-export const DASHCAM_IMG = '/src/assets/images/road_dashcam_view.jpg';
-export const CRACK_IMG = '/src/assets/images/road_crack_surface.jpg';
-export const APP_LOGO_IMG = '/src/assets/images/road_damage_shield_logo.jpg';
-export const DEFECT_TRANSVERSE_CRACK_IMG = '/src/assets/images/defect_transverse_crack.jpg';
-export const DEFECT_ALLIGATOR_CRACK_IMG = '/assets/aistudio/image_c0099d7b.png';
-export const DEFECT_LONGITUDINAL_CRACK_IMG = '/src/assets/images/defect_longitudinal_crack.jpg';
-export const DEFECT_POTHOLE_IMG = '/assets/aistudio/image_646ff71d.png';
-export const DEFECT_MANHOLE_HAZARD_IMG = '/assets/aistudio/image_7eff1d52.png';
+import appLogoImg from '../assets/images/road_damage_shield_logo.jpg';
+import defectTransverseCrackImg from '../assets/images/defect_transverse_crack.jpg';
+import defectLongitudinalCrackImg from '../assets/images/defect_longitudinal_crack.jpg';
+import defectAlligatorCrackImg from '../assets/images/defect_alligator_crack.jpg';
+import defectPotholeImg from '../assets/images/defect_pothole.jpg';
+import defectManholeHazardImg from '../assets/images/defect_manhole_hazard.jpg';
+import dashcamImg from '../assets/images/road_dashcam_view.jpg';
+import crackImg from '../assets/images/road_crack_surface.jpg';
+
+export const POTHOLE_IMG = defectPotholeImg;
+export const DASHCAM_IMG = dashcamImg;
+export const CRACK_IMG = crackImg;
+export const APP_LOGO_IMG = appLogoImg;
+export const DEFECT_TRANSVERSE_CRACK_IMG = defectTransverseCrackImg;
+export const DEFECT_ALLIGATOR_CRACK_IMG = defectAlligatorCrackImg;
+export const DEFECT_LONGITUDINAL_CRACK_IMG = defectLongitudinalCrackImg;
+export const DEFECT_POTHOLE_IMG = defectPotholeImg;
+export const DEFECT_MANHOLE_HAZARD_IMG = defectManholeHazardImg;
 
 // 24 Detailed Manhole Hazard Problems with complete engineering inspection metadata
 export const MANHOLE_HAZARDS_24_PROBLEMS: DamageDetection[] = [
